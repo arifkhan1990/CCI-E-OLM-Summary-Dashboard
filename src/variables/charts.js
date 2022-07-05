@@ -298,34 +298,172 @@ export const hichartDonutOptions = {
     type: 'pie',
     options3d: {
       enabled: true,
-      alpha: 45
+      alpha: 45,
+      beta: 0
     }
   },
   title: {
-    text: 'Contents of Highsoft\'s weekly fruit delivery'
+    text: 'Regional Offcie wise All Application Approve Percentage, 2021-2022'
   },
-  // subtitle: {
-  //   text: '3D donut in Highcharts'
-  // },
+  accessibility: {
+    point: {
+      valueSuffix: '%'
+    }
+  },
+  tooltip: {
+    pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>%'
+  },
   plotOptions: {
     pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
       innerSize: 100,
-      depth: 45
-    },
-    showInLegend: true
+      depth: 45,
+      dataLabels: {
+        enabled: true,
+        format: '{point.name} {point.percentage:.1f}%'
+      },
+      showInLegend: true
+    }
   },
   series: [{
-    name: 'Delivered amount',
+    name: 'Approve Application',
     data: [
-      ['Bananas', 8],
-      ['Kiwi', 3],
-      ['Mixed nuts', 1],
-      ['Oranges', 6],
-      ['Apples', 8],
-      ['Pears', 4],
-      ['Clementines', 4],
-      ['Reddish (bag)', 1],
-      ['Grapes (bunch)', 1]
+      ['Dhaka', 8],
+      ['CTG', 3],
+      ['Khulna', 1],
+      ['Rajshahi', 6],
+      ['Others', 8]
     ]
+  }]
+}
+
+export const hichartLineChartOptions = {
+  chart: {
+    type: 'line'
+  },
+  title: {
+    text: 'Per day Renew Application Record,2022-2023'
+  },
+  // subtitle: {
+  //   text: 'Source: WorldClimate.com'
+  // },
+  xAxis: {
+    categories: [
+      "Jul-03",
+      "Jul-02",
+      "Jul-01",
+      "Jun-30",
+      "Jun-29",
+      "Jun-28",
+      "Jun-27",
+      "Jun-26",
+      "Jun-25",
+      "Jun-24",
+      "Jun-23",
+      "Jun-22",
+    ],
+  },
+  yAxis: {
+    title: {
+      text: 'Per Day Renew Record'
+    }
+  },
+  plotOptions: {
+    line: {
+      dataLabels: {
+        enabled: true
+      },
+      enableMouseTracking: false
+    }
+  },
+  series: [{
+    name: 'Processing',
+    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+  },
+  {
+    name: 'Submission',
+    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+  },
+  {
+    name: 'Approve',
+    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+  }
+],
+
+  responsive: {
+    rules: [{
+      condition: {
+        maxWidth: 500
+      },
+      chartOptions: {
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'bottom'
+        }
+      }
+    }]
+  }
+}
+
+export const hichartBarChartOptions = {
+  chart: {
+    type: 'bar'
+  },
+  title: {
+    text: 'Office wise Renew Application Service'
+  },
+  xAxis: {
+    categories: ['Dhaka', 'CTG', 'Khulna', 'Barishal', 'Rajshahi', 'Others'],
+    title: {
+      text: null
+    }
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: 'Service(Renew)',
+      align: 'high'
+    },
+    labels: {
+      overflow: 'justify'
+    }
+  },
+  tooltip: {
+    valueSuffix: ''
+  },
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        enabled: true
+      }
+    }
+  },
+  legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'top',
+    x: -40,
+    y: 80,
+    floating: true,
+    borderWidth: 1,
+    shadow: true
+  },
+  credits: {
+    enabled: false
+  },
+  series: [{
+    name: 'Submission',
+    data: [635,107, 31, 203, 82, 137]
+  }, {
+    name: 'Processing',
+    data: [447,133, 56,408, 66, 111]
+  }, {
+    name: 'Approve',
+    data: [714,414, 41, 327, 131, 73]
+  }, {
+    name: 'Reject',
+    data: [216, 501, 36, 238, 90, 114]
   }]
 }

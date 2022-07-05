@@ -2,7 +2,7 @@
   "name": "cci&e-olm-summary-dashboard",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-chakra/#/",
+  "homepage": "",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.5",
     "@chakra-ui/react": "1.8.8",
@@ -17,6 +17,7 @@
     "@fusioncharts/charts": "^3.18.0",
     "apexcharts": "^3.27.3",
     "classnames": "2.3.1",
+    "cors": "^2.8.5",
     "framer-motion": "4.1.17",
     "fusioncharts": "^3.18.0",
     "highcharts": "^10.1.0",
