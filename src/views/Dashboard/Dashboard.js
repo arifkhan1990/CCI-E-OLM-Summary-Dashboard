@@ -90,7 +90,8 @@ export default function Dashboard() {
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      // fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
