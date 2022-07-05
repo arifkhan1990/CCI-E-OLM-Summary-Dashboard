@@ -41,18 +41,12 @@ import {
 import React, {useState, useEffect} from "react";
 // Variables
 import {
-  barChartData,
-  barChartOptions,
   barChartData2,
   barChartOptions2,
-  lineChartData,
-  lineChartOptions,
-  hichartPieChartData,
-  hichartDonutOptions,
-  hichartBarChartOptions
 } from "variables/charts";
 import { pageVisits, socialTraffic } from "variables/general";
 import { max } from "lodash";
+import { RiSafariFill } from "react-icons/ri";
 
 export default function Dashboard() {
   // Chakra Color Mode
@@ -66,10 +60,6 @@ export default function Dashboard() {
   const { colorMode } = useColorMode();
   const [cardData, setCardData] = useState();
   const [pieChartData, setPieChartData] = useState();
-  const [rc, setRc] = useState();
-  const [ra, setRa] = useState();
-  const [rp, setRp] = useState();
-  const [rs, setRs] = useState();
 
   var pieD = [];
   var donutPieChartData = [];
@@ -78,10 +68,15 @@ export default function Dashboard() {
   var rP = [0,0,47,257,438,598,1657,0];
   var rS = [0,0,257,1082,965,834,2081,0];
 
-  const [barChartD_approve, setBarChartD_approve] = useState([]);
-  const [barChartD_processing, setBarChartD_processing] = useState([]);
-  const [barChartD_reject, setBarChartD_reject] = useState([]);
-  const [barChartD_submission, setBarChartD_submission] = useState([]);
+  const [rc, setRc] = useState(rC);
+  const [ra, setRa] = useState(rA);
+  const [rp, setRp] = useState(rP);
+  const [rs, setRs] = useState(rS);
+
+  const [barChartD_approve, setBarChartD_approve] = useState([1051,95,20,7,7,4,1]);
+  const [barChartD_processing, setBarChartD_processing] = useState([1659,165,41,10,5,5,3]);
+  const [barChartD_reject, setBarChartD_reject] = useState([2710,260,61,17,12,9,4]);
+  const [barChartD_submission, setBarChartD_submission] = useState([2710,260,61,17,12,9,4]);
   
   useEffect(() => {
     const fetchData = async =>{
@@ -109,31 +104,26 @@ export default function Dashboard() {
           result.officesWiseAllApp.map((d, k) => {
               donutPieChartData.push([d.Regional_office,(Number(d.SHARE) + pieD[k][1])/2])
           });
+
+          setBarChartD_approve();
+          setBarChartD_processing();
+          setBarChartD_reject();
+          setBarChartD_submission();
+
           setBarChartD_approve(result.officeWiseRenewTotalApprove);
           setBarChartD_processing(result.officeWiseRenewTotalProcessing);
           setBarChartD_reject(result.officeWiseRenewTotalReject);
           setBarChartD_submission(result.officesWiseRenewTotalSubmision);
 
+          setRc();
+          setRa();
+          setRp();
+          setRs();
+          
            setRc(result.dayWiseRenewDataCat);
            setRa(result.dayWiseRenewApp);
            setRp(result.dayWiseRenewPro);
            setRs(result.dayWiseRenewSub);
-          // result.officeWiseRenewTotalApprove.map((d, k) => {
-          //   console.log(d.total_approve)
-          //   barChartD_approve.push([d.total_approve, k]);
-          // })
-
-          // result.officeWiseRenewTotalProcessing.map((d, k) => {
-          //   barChartD_processing.push(d.total_processing)
-          // })
-
-          // result.officeWiseRenewTotalReject.map((d, k) => {
-          //   barChartD_reject.push(d.total_reject)
-          // })
-
-          // for(let i = 0; i < max(barChartD_approve.length, barChartD_processing.length, barChartD_reject.length); i++) {
-          //   barChartD_submission.push(barChartD_processing[i] && barChartD_processing[i]  + barChartD_approve[i] && barChartD_approve[i] + barChartD_reject[i] && barChartD_reject[i]);
-          // }
 
           setPieChartData(pieD);
         })
@@ -143,7 +133,8 @@ export default function Dashboard() {
   },[]);
 
   console.log({cardData});
-  // console.log({pieChartData});
+  console.log({pieD});
+  console.log({pieChartData});
   console.log({barChartD_approve});
   console.log({barChartD_processing});
   console.log({barChartD_reject});
@@ -230,18 +221,12 @@ export default function Dashboard() {
     }]
   }
   
-  var b1 = [1051,95,20,7,7,4,1];
-  var b2 = [1659,165,41,10,5,5,3];
   var b3 = [0,0,0,0,0,0,0];
-  var b4 = [2710,260,61,17,12,9,4];
-//  b1 = barChartD_approve;
-//  b2 = barChartD_processing;
-//  b3 = barChartD_reject;
-//  b4 = barChartD_submission;
- console.log({b1});
- console.log({b2});
- console.log({b3});
- console.log({b4});
+
+  { !barChartD_reject &&
+        setBarChartD_reject(b3)
+  }
+
   const hichartBarChartOptions = {
     chart: {
       type: 'bar'
@@ -290,19 +275,18 @@ export default function Dashboard() {
     },
     series: [{
       name: 'Submission',
-      data: b4
+      data: barChartD_submission
     }, {
       name: 'Processing',
-      data: b2
+      data: barChartD_processing
     }, {
       name: 'Approve',
-      data: b1
+      data: barChartD_approve
     }, {
       name: 'Reject',
-      data: b3
+      data: barChartD_reject
     }]
   }
-
 
   const hichartLineChartOptions = {
     chart: {
@@ -315,21 +299,7 @@ export default function Dashboard() {
     //   text: 'Source: WorldClimate.com'
     // },
     xAxis: {
-      categories: rC
-      // categories: [
-      //   "Jul-03",
-      //   "Jul-02",
-      //   "Jul-01",
-      //   "Jun-30",
-      //   "Jun-29",
-      //   "Jun-28",
-      //   "Jun-27",
-      //   "Jun-26",
-      //   "Jun-25",
-      //   "Jun-24",
-      //   "Jun-23",
-      //   "Jun-22",
-      // ],
+      categories: rc
     },
     yAxis: {
       title: {
@@ -346,15 +316,15 @@ export default function Dashboard() {
     },
     series: [{
       name: 'Processing',
-      data:  rP   //[11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+      data:  rp   //[11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
     },
     {
       name: 'Submission',
-      data: rS  //[43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+      data: rs  //[43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
     },
     {
       name: 'Approve',
-      data: rA   //[24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+      data: ra   //[24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
     }
   ],
   
@@ -373,6 +343,7 @@ export default function Dashboard() {
       }]
     }
   }
+
   return (
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px' mb='20px'>
@@ -537,12 +508,13 @@ export default function Dashboard() {
         
         templateColumns={{ sm: "1fr",lg: "1fr" }}
         gap='20px'>
+    {rc && ra && rp && rs &&
         <Card
-          bg={
-            colorMode === "dark"
-              ? "navy.800"
-              : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
-          }
+          // bg={
+          //   colorMode === "dark"
+          //     ? "navy.800"
+          //     : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
+          // }
           mb='20px'
           p='0px'
           maxW={{ sm: "320px", md: "100%" }}>
@@ -552,11 +524,13 @@ export default function Dashboard() {
             </Text>
           </Flex> */}
           <Box minH='250px'>
+            
             <HichartLineChart
               chartOptions={hichartLineChartOptions}
             />
           </Box>
         </Card>
+      }
       </Grid>
 
       <Grid
@@ -594,6 +568,8 @@ export default function Dashboard() {
             <BarChart2 chartData={barChartData2} chartOptions={barChartOptions2} />
             </Box>
         </Card>
+
+        { barChartD_approve && barChartD_processing && barChartD_reject && barChartD_submission &&
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
             <Text color={textColor} fontSize='lg' fontWeight='bold'>
@@ -604,6 +580,7 @@ export default function Dashboard() {
             <HichartBarChart chartOptions={hichartBarChartOptions} />
           </Box>
         </Card>
+        }
       </Grid>
     </Flex>
   );
