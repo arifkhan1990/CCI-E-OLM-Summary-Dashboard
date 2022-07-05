@@ -26,7 +26,7 @@ export default function Footer(props) {
         &copy; {1900 + new Date().getYear()},{" "}
         <Link
           color='blue.400'
-          href='https://www.creative-tim.com'
+          href='#'
           target='_blank'>
           {document.documentElement.dir === "rtl"
             ? " توقيت الإبداعية"
@@ -42,7 +42,7 @@ export default function Footer(props) {
             base: "20px",
             md: "44px",
           }}>
-          <Link color='gray.400' href='https://www.simmmple.com'>
+          <Link color='gray.400' href='#'>
             {document.documentElement.dir === "rtl" ? "سيممبل" : "Entertech"}
           </Link>
         </ListItem>

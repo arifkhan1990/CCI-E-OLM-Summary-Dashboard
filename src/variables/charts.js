@@ -415,7 +415,7 @@ export const hichartBarChartOptions = {
     text: 'Office wise Renew Application Service'
   },
   xAxis: {
-    categories: ['Dhaka', 'CTG', 'Khulna', 'Barishal', 'Rajshahi', 'Others'],
+    categories: ['Dhaka', 'CTG', 'Khulna', , 'Rajshahi', 'Barishal', 'Others'],
     title: {
       text: null
     }

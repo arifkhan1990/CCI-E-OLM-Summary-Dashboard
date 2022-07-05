@@ -7,6 +7,7 @@ import highcharts3d from "highcharts/highcharts-3d";
 highcharts3d(Highcharts);
 
 class HichartPieChart extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
