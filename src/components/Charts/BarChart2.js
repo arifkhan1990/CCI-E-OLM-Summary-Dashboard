@@ -24,7 +24,7 @@ class BarChart2 extends Component {
           series={this.state.chartData}
           type="bar"
           width="100%"
-          height="100%"
+          height="340px"
         />
     );
   }

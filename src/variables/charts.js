@@ -1,3 +1,4 @@
+
 export const barChartData = [
   {
     name: "Sales",
@@ -221,3 +222,110 @@ export const barChartOptions2 = {
     },
     colors: ["#D6EAF8", "#71DC71","#DCCD71"],
 };
+
+export const hichartPieChartData = [
+  {
+    type: 'pie',
+    name: 'Browser share',
+    data: [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      {
+        name: 'Chrome',
+        y: 12.8,
+        sliced: true,
+        selected: true
+      },
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7]
+    ]
+  }
+]
+
+export const hichartPieChartOptions = {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45,
+      beta: 0
+    }
+  },
+  title: {
+    text: 'Regional Offcie wise Renew Application Approve Percentage, 2021-2022'
+  },
+  accessibility: {
+    point: {
+      valueSuffix: '%'
+    }
+  },
+  tooltip: {
+    pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>%'
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      depth: 35,
+      dataLabels: {
+        enabled: true,
+        format: '{point.name} {point.percentage:.1f}%'
+      },
+      showInLegend: true
+    }
+  },
+  series: [{
+    type: 'pie',
+    name: 'Renew Application Approve Percentage',
+    data: [
+      {
+        name: 'Dhaka',
+        y: 69.29,
+        sliced: true,
+        selected: true
+      },
+      ['CTG', 13.84],
+      ['Khulna', 5.22],
+      ['Rajshahi', 1.14],
+      ['Others', 7.7]
+    ]
+  }]
+}
+
+export const hichartDonutOptions = {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45
+    }
+  },
+  title: {
+    text: 'Contents of Highsoft\'s weekly fruit delivery'
+  },
+  // subtitle: {
+  //   text: '3D donut in Highcharts'
+  // },
+  plotOptions: {
+    pie: {
+      innerSize: 100,
+      depth: 45
+    },
+    showInLegend: true
+  },
+  series: [{
+    name: 'Delivered amount',
+    data: [
+      ['Bananas', 8],
+      ['Kiwi', 3],
+      ['Mixed nuts', 1],
+      ['Oranges', 6],
+      ['Apples', 8],
+      ['Pears', 4],
+      ['Clementines', 4],
+      ['Reddish (bag)', 1],
+      ['Grapes (bunch)', 1]
+    ]
+  }]
+}

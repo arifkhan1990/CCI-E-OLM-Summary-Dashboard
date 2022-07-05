@@ -24,6 +24,8 @@ import Card from "components/Card/Card.js";
 import BarChart from "components/Charts/BarChart";
 import BarChart2 from "components/Charts/BarChart2";
 import Donut3DChart from "components/Charts/Donut3DChart";
+import HichartPieChart from "components/Charts/HichartPieChart";
+import HichartDonutChart from "components/Charts/HichartDonutChart";
 import LineChart from "components/Charts/LineChart";
 import IconBox from "components/Icons/IconBox";
 // Custom icons
@@ -43,6 +45,9 @@ import {
   barChartOptions2,
   lineChartData,
   lineChartOptions,
+  hichartPieChartData,
+  hichartPieChartOptions,
+  hichartDonutOptions
 } from "variables/charts";
 import { pageVisits, socialTraffic } from "variables/general";
 
@@ -230,7 +235,7 @@ export default function Dashboard() {
           mb='20px'
           p='0px'
           maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+          <Flex direction='column' p='28px 0px 0px 22px'>
             <Text color='#fff' fontSize='lg' fontWeight='bold' mb='6px'>
               Per day Renew Application Record
             </Text>
@@ -248,22 +253,43 @@ export default function Dashboard() {
         templateColumns={{ sm: "1fr", lg: "2fr 2fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
         gap='20px'>
-        <Card p='0px' maxW={{ sm: "320px", md: "100%"}}>
-          <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+        <Card p='0px' maxW={{ sm: "320px", md: "100%"}} minH='220px'>
+          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
               <Text fontSize='lg' color={textColor} fontWeight='bold'>
                 Office wise Renew Application Approve Percentage
               </Text>
-            </Flex>
+            </Flex> */}
             <Box minH='250px'>
-              <Donut3DChart />
+              <HichartPieChart chartOptions={hichartPieChartOptions} />
             </Box>
         </Card>
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
-          <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
             <Text color={textColor} fontSize='lg' fontWeight='bold'>
             Service wise Application Status
             </Text>
-          </Flex>
+          </Flex> */}
+          <Box minH='300px'>
+          <HichartDonutChart chartOptions={hichartDonutOptions} />
+          </Box>
+        </Card>
+        <Card p='0px' maxW={{ sm: "320px", md: "100%"}}>
+          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+              <Text fontSize='lg' color={textColor} fontWeight='bold'>
+                Office wise Renew Application Approve Percentage
+              </Text>
+            </Flex> */}
+            <Box minH='250px'>
+            
+            <BarChart2 chartData={barChartData2} chartOptions={barChartOptions2} />
+            </Box>
+        </Card>
+        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
+          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+            <Text color={textColor} fontSize='lg' fontWeight='bold'>
+            Service wise Application Status
+            </Text>
+          </Flex> */}
           <Box minH='300px'>
             <BarChart2 chartData={barChartData2} chartOptions={barChartOptions2} />
           </Box>
