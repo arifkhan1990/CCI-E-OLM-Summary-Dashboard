@@ -47,6 +47,7 @@ import {
 import { pageVisits, socialTraffic } from "variables/general";
 import { max } from "lodash";
 import { RiSafariFill } from "react-icons/ri";
+import NumberFormat from "react-number-format";
 
 export default function Dashboard() {
   // Chakra Color Mode
@@ -59,8 +60,8 @@ export default function Dashboard() {
 
   const { colorMode } = useColorMode();
   const [cardData, setCardData] = useState();
-  const [pieChartData, setPieChartData] = useState();
-
+  const [pieChartData, setPieChartData] = useState([['Dhaka',69.29],['CTG', 13.84],['Khulna', 5.22],['Rajshahi', 1.14],['Others', 7.7]]);
+  const [pieDonutChartData, setPieDonutChartData] = useState([['Dhaka',69.29],['CTG', 13.84],['Khulna', 5.22],['Rajshahi', 1.14],['Others', 7.7]]);
   var pieD = [];
   var donutPieChartData = [];
   var rC = ["Jun-29","Jun-30","Jul-01","Jul-02","Jul-03","Jul-04","Jul-05","Jul-06"];
@@ -72,7 +73,7 @@ export default function Dashboard() {
   const [ra, setRa] = useState(rA);
   const [rp, setRp] = useState(rP);
   const [rs, setRs] = useState(rS);
-
+  const [status, setStatus] = useState();
   const [barChartD_approve, setBarChartD_approve] = useState([1051,95,20,7,7,4,1]);
   const [barChartD_processing, setBarChartD_processing] = useState([1659,165,41,10,5,5,3]);
   const [barChartD_reject, setBarChartD_reject] = useState([2710,260,61,17,12,9,4]);
@@ -92,6 +93,8 @@ export default function Dashboard() {
           console.log(result);
           setCardData(result.data);
           
+          setStatus(result.status);
+          
           result.officesWiseRenewApp.map((d, k) => {
             // if(k == 0) {
             //   var firstD = {name: d.Regional_office, y: Number(d.SHARE),sliced: true,selected: true};
@@ -104,6 +107,11 @@ export default function Dashboard() {
           result.officesWiseAllApp.map((d, k) => {
               donutPieChartData.push([d.Regional_office,(Number(d.SHARE) + pieD[k][1])/2])
           });
+          setPieChartData();
+          setPieChartData(pieD);
+
+          setPieDonutChartData();
+          setPieDonutChartData(donutPieChartData);
 
           setBarChartD_approve();
           setBarChartD_processing();
@@ -124,25 +132,12 @@ export default function Dashboard() {
            setRa(result.dayWiseRenewApp);
            setRp(result.dayWiseRenewPro);
            setRs(result.dayWiseRenewSub);
-
-          setPieChartData(pieD);
         })
         .catch(error => console.log('error', error));
     };
     fetchData();
   },[]);
-
-  console.log({cardData});
-  console.log({pieD});
-  console.log({pieChartData});
-  console.log({barChartD_approve});
-  console.log({barChartD_processing});
-  console.log({barChartD_reject});
-  console.log({barChartD_submission});
-  console.log(rc);
-  console.log(ra);
-  console.log({rp});
-  console.log({rs});
+// console.log({pieDonutChartData});
   const hichartPieChartOptions = {
     chart: {
       type: 'pie',
@@ -178,7 +173,7 @@ export default function Dashboard() {
     series: [{
       type: 'pie',
       name: 'Renew Application Approve Percentage',
-      data: pieD
+      data: pieChartData
     }]
   }
 
@@ -217,7 +212,7 @@ export default function Dashboard() {
     },
     series: [{
       name: 'Approve Application',
-      data: donutPieChartData
+      data: pieDonutChartData
     }]
   }
   
@@ -482,7 +477,8 @@ export default function Dashboard() {
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                  {cardData?  cardData.renewRevenue : ''} BDT
+                  <NumberFormat value={cardData?  cardData.renewRevenue : ''} displayType={'text'} thousandSeparator={true} prefix={'৳ '} />
+                  {/* {cardData?  cardData.renewRevenue : ''} BDT */}
                   </StatNumber>
                 </Flex>
               </Stat>
@@ -537,6 +533,7 @@ export default function Dashboard() {
         templateColumns={{ sm: "1fr", lg: "2fr 2fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
         gap='20px'>
+        {pieChartData && 
         <Card p='0px' maxW={{ sm: "320px", md: "100%"}} minH='220px'>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
               <Text fontSize='lg' color={textColor} fontWeight='bold'>
@@ -547,6 +544,8 @@ export default function Dashboard() {
               <HichartPieChart chartOptions={hichartPieChartOptions} />
             </Box>
         </Card>
+        }
+        {pieDonutChartData &&
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
             <Text color={textColor} fontSize='lg' fontWeight='bold'>
@@ -557,6 +556,7 @@ export default function Dashboard() {
             <HichartDonutChart chartOptions={hichartDonutOptions} />
           </Box>
         </Card>
+        }
         <Card p='0px' maxW={{ sm: "320px", md: "100%"}}>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
               <Text fontSize='lg' color={textColor} fontWeight='bold'>

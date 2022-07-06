@@ -22,7 +22,7 @@ class HichartDonutChart extends Component {
   render() {
     return (
         <HighchartsReact
-        containerProps={{ style: { height: "340px" } }}
+        containerProps={{ style: { height: "340px", borderRadius: "25px" } }}
         highcharts={Highcharts}
         options={this.state.chartOptions}
         type="pie"
