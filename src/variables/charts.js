@@ -467,3 +467,31 @@ export const hichartBarChartOptions = {
     data: [216, 501, 36, 238, 90, 114]
   }]
 }
+
+export const hiDoubleDonutChartOptions = {
+  chart: {
+    type: 'pie'
+  },
+  title: {
+    text: 'Service wise Renew Application Approve && Processing Percentage, 2022-2023'
+  },
+  series: [{
+    innerSize: 150,
+    size: 200,
+    data: [
+      ['Firefox', 44.2],
+      ['IE7', 26.6],
+      ['IE6', 20],
+      ['Chrome', 3.1],
+      ['Other', 5.4]
+    ]
+  }, {
+    innerSize: 100,
+    size: 150,
+    data: [
+      ['Fir', 44.2],
+      ['Chro', 3.1],
+      ['Oth', 5.4]
+    ]
+  }]
+}
