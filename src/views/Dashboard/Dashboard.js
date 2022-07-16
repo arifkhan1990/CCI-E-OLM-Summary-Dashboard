@@ -31,7 +31,10 @@ import HichartBarChart from "components/Charts/HichartBarChart";
 import LineChart from "components/Charts/LineChart";
 import IconBox from "components/Icons/IconBox";
 import HiDoubleDonutChart from "components/Charts/HiDoubleDonutChart";
+import HiColumnChart from "components/Charts/HiColumnChart";
+import HiSemiPieChart from "components/Charts/HiSemiPieChart";
 
+import Highcharts from 'highcharts'
 // Custom icons
 import {
   CartIcon,
@@ -84,7 +87,7 @@ export default function Dashboard() {
   const [status, setStatus] = useState();
   const [barChartD_approve, setBarChartD_approve] = useState([1051,95,20,7,7,4,1]);
   const [barChartD_processing, setBarChartD_processing] = useState([1659,165,41,10,5,5,3]);
-  const [barChartD_reject, setBarChartD_reject] = useState([2710,260,61,17,12,9,4]);
+  const [barChartD_reject, setBarChartD_reject] = useState([0,0,0,0,0,0,0]);
   const [barChartD_submission, setBarChartD_submission] = useState([2710,260,61,17,12,9,4]);
   const [serviceWiseRenewApp , setServiceWiseRenewApp] = useState([
     { "name": "Commercial IRC","id": 1,"y": 2069,
@@ -143,7 +146,15 @@ export default function Dashboard() {
         "displayValue": "1.45 %"}
 ]);
 
-  
+const services = [
+  {name: 'Commercial IRC',color: '#5DADE2'},
+  {name: 'General ERC',color: '#EC7063'},
+  {name: 'Industrial IRC (Other Adhoc)',color: '#F7DC6F'},
+  {name: 'Multinational ERC',color: '#EB984E'},
+  {name: 'Indenting ERC',color: '#A569BD'},
+  {name: 'Multinational IRC',color: '#43b373'},
+  {name: 'Industrial IRC (First Adhoc)',color: '#5D6D7E'}];
+
   useEffect(() => {
     const fetchData = async =>{
       var requestOptions = {
@@ -151,7 +162,7 @@ export default function Dashboard() {
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      // fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
       fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
@@ -173,7 +184,7 @@ export default function Dashboard() {
           });
 
         result.serviceWiseRenewApprove.map((d, k) => {
-            doubleDonutChartApproveData.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, 'displayValue': Number(d.SHARE) + ' %'})
+            doubleDonutChartApproveData.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, color: services[k].color, 'displayValue': Number(d.SHARE) + ' %'})
         });
 
         setServiceWiseRenewApp();
@@ -195,13 +206,19 @@ export default function Dashboard() {
 
           setBarChartD_approve();
           setBarChartD_processing();
-          setBarChartD_reject();
+          
           setBarChartD_submission();
-
+          
           setBarChartD_approve(result.officeWiseRenewTotalApprove);
           setBarChartD_processing(result.officeWiseRenewTotalProcessing);
-          setBarChartD_reject(result.officeWiseRenewTotalReject);
+          
           setBarChartD_submission(result.officesWiseRenewTotalSubmision);
+          
+          console.log(result.officeWiseRenewTotalReject.length)
+          if(result.officeWiseRenewTotalReject.length != 0) {
+            setBarChartD_reject();
+            setBarChartD_reject(result.officeWiseRenewTotalReject);
+          }
 
           setRc();
           setRa();
@@ -212,12 +229,18 @@ export default function Dashboard() {
            setRa(result.dayWiseRenewApp);
            setRp(result.dayWiseRenewPro);
            setRs(result.dayWiseRenewSub);
-        })
-        .catch(error => console.log('error', error));
+
+        }).catch(error => console.log('error', error));
     };
     fetchData();
   },[]);
   console.log({serviceWiseRenewApp});
+  console.log({serviceWiseRenewPro});
+  console.log({barChartD_reject});
+  console.log({barChartD_approve});
+  console.log({barChartD_processing});
+  console.log({barChartD_submission});
+
   const hichartPieChartOptions = {
     chart: {
       type: 'pie',
@@ -227,6 +250,19 @@ export default function Dashboard() {
         beta: 0
       }
     },
+    colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+      return {
+          radialGradient: {
+              cx: 0.5,
+              cy: 0.3,
+              r: 0.7
+          },
+          stops: [
+              [0, color],
+              [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+          ]
+      };
+    }),
     title: {
       text: 'Regional Office wise Renew Application, 2022-2023'
     },
@@ -580,7 +616,7 @@ export default function Dashboard() {
         showInLegend: false,
         dataLabels: {
           enabled: true,
-          format: '<b>{point.displayValue}</b><br/> <b>{point.y}</b>',
+          format: '<b>{point.displayValue}</b>',
           distance: -25,
           filter: {
             property: 'percentage',
@@ -592,7 +628,7 @@ export default function Dashboard() {
         pieTotal: "828",
         colors: [
           "#F9E79F",
-          "#76D7C4",
+          "#8ad3a9",
           "#AED6F1",
           "#AEB6BF",
           "#F5B7B1",
@@ -605,7 +641,7 @@ export default function Dashboard() {
         size: "60%",
         dataLabels: {
           enabled: true,
-          format: '<b>{point.displayValue}</b> <br/> <b>{point.y}</b>',
+          format: '<b>{point.displayValue}</b>',
           distance: -25,
           filter: {
             property: 'percentage',
@@ -633,7 +669,7 @@ export default function Dashboard() {
         pieTotal: "828",
         colors: [
           "#F7DC6F",
-          "#52BE80",
+          "#43b373",
           "#5DADE2",
           "#5D6D7E",
           "#EC7063",
@@ -676,6 +712,130 @@ export default function Dashboard() {
         fontWeight: "normal"
       }
     }
+  }
+
+  const hiColumnBarChart = {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Service Wise Renew Application',
+        align: 'center'
+    },
+    plotOptions: {
+        series: {
+            grouping: false,
+            borderWidth: 0
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        shared: true,
+        headerFormat: '<span style="font-size: 15px">{point.point.name}</span><br/>',
+        pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>'
+    },
+    xAxis: {
+        type: 'category',
+        accessibility: {
+            description: 'services'
+        },
+        max: 6,
+        labels: {
+            useHTML: true,
+            animate: true,
+            formatter: ctx => {
+                let name;
+
+                services.forEach(function (service) {
+                    if (service.name === ctx.value) {
+                        name = service.name;
+                    }
+                });
+
+                return `${name}<br><span class="f32">
+                    <span class="name ${name}"></span>
+                </span>`;
+            },
+            style: {
+                textAlign: 'center'
+            }
+        }
+    },
+    yAxis: [{
+        title: {
+            text: 'Renew Application 2022-2023'
+        },
+        showFirstLabel: false
+    }],
+    series: [{
+        color: 'rgb(158, 159, 163)',
+        pointPlacement: -0.2,
+        linkedTo: 'main',
+        data: serviceWiseRenewPro,
+        name: 'Processing'
+    }, {
+        name: 'Approve',
+        id: 'main',
+        dataSorting: {
+            enabled: true,
+            matchByName: true
+        },
+        dataLabels: [{
+            enabled: true,
+            inside: true,
+            style: {
+                fontSize: '16px'
+            }
+        }],
+        data: serviceWiseRenewApp
+    }],
+    exporting: {
+        allowHTML: true
+    }
+  }
+
+  const hiSemiPieChart = {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+    title: {
+        text: 'Regional Offcie wise All Application Approve status 2022-2023',
+        align: 'center',
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            dataLabels: {
+                enabled: true,
+                distance: -50,
+                style: {
+                    fontWeight: 'bold',
+                    color: 'white'
+                }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%'],
+            size: '110%'
+        }
+    },
+    series: [{
+        type: 'pie',
+        name: 'Approve',
+        innerSize: '50%',
+        data: pieDonutChartData
+    }]
   }
 
   return (
@@ -898,19 +1058,29 @@ export default function Dashboard() {
             </Box>
         </Card>
          }
-
-        <Card p='0px' maxW={{ sm: "320px", md: "100%"}}>
-          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
-                Office wise Renew Application Approve Percentage
-              </Text>
-            </Flex> */}
-            <Box minH='250px'>
-            
-            <BarChart2 chartData={barChartData2} chartOptions={barChartOptions2} />
-            </Box>
-        </Card>
-
+      </Grid>
+      <Grid
+        templateColumns={{ sm: "1fr",lg: "1fr" }}
+        templateRows={{ lg: "repeat(2, auto)" }}
+        gap='20px'>
+          {serviceWiseRenewApp && serviceWiseRenewPro && 
+            <Card p='0px' maxW={{ sm: "320px", md: "100%"}}>
+              {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+                  <Text fontSize='lg' color={textColor} fontWeight='bold'>
+                    Office wise Renew Application Approve Percentage
+                  </Text>
+                </Flex> */}
+                <Box minH='250px'>
+                <HiColumnChart chartOptions={hiColumnBarChart} />
+                {/* <BarChart2 chartData={barChartData2} chartOptions={barChartOptions2} /> */}
+                </Box>
+            </Card>
+          }
+      </Grid>
+      <Grid
+            templateColumns={{ sm: "1fr", lg: "2fr 2fr" }}
+            templateRows={{ lg: "repeat(2, auto)" }}
+            gap='20px'>
         { barChartD_approve && barChartD_processing && barChartD_reject && barChartD_submission &&
         <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
@@ -932,7 +1102,8 @@ export default function Dashboard() {
             </Text>
           </Flex> */}
           <Box minH='300px'>
-            <HichartDonutChart chartOptions={hichartDonutOptions} />
+            <HiSemiPieChart chartOptions={hiSemiPieChart} />
+            {/* <HichartDonutChart chartOptions={hichartDonutOptions} /> */}
           </Box>
         </Card>
         }
