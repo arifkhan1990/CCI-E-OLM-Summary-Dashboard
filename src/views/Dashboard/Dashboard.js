@@ -147,13 +147,13 @@ export default function Dashboard() {
 ]);
 
 const services = [
-  {name: 'Commercial IRC',color: '#5DADE2'},
-  {name: 'General ERC',color: '#EC7063'},
-  {name: 'Industrial IRC (Other Adhoc)',color: '#F7DC6F'},
-  {name: 'Multinational ERC',color: '#EB984E'},
-  {name: 'Indenting ERC',color: '#A569BD'},
-  {name: 'Multinational IRC',color: '#43b373'},
-  {name: 'Industrial IRC (First Adhoc)',color: '#5D6D7E'}];
+  {name: 'Commercial IRC',color: '#F7DC6F'},
+  {name: 'General ERC',color: '#43b373'},
+  {name: 'Industrial IRC (Other Adhoc)',color: '#5DADE2'},
+  {name: 'Multinational ERC',color: '#5D6D7E'},
+  {name: 'Indenting ERC',color: '#EC7063'},
+  {name: 'Multinational IRC',color: '#EB984E'},
+  {name: 'Industrial IRC (First Adhoc)',color: '#A569BD'}];
 
   useEffect(() => {
     const fetchData = async =>{
