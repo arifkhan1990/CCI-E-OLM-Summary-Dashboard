@@ -75,6 +75,8 @@ export default function Dashboard() {
   var donutPieChartData = [];
   var doubleDonutChartApproveData = [];
   var doubleDonutChartProcessingData = [];
+  var serviceWiseRenewSub = [];
+  var serviceWiseRenewRej = [];
   var rC = ["Jun-29","Jun-30","Jul-01","Jul-02","Jul-03","Jul-04","Jul-05","Jul-06"];
   var rA = [0,0,0,0,474,781,966,0];
   var rP = [0,0,47,257,438,598,1657,0];
@@ -90,6 +92,41 @@ export default function Dashboard() {
   const [barChartD_reject, setBarChartD_reject] = useState([0,0,0,0,0,0,0]);
   const [barChartD_submission, setBarChartD_submission] = useState([2710,260,61,17,12,9,4]);
   const [serviceWiseRenewApp , setServiceWiseRenewApp] = useState([
+    { "name": "Commercial IRC","id": 1,"y": 2069,"color": '#F7DC6F',
+        "displayValue": "31.98 %"},{
+        "name": "Industrial IRC (Other Adhoc)",
+        "id": 2,
+        "y": 1997,
+        "color": '#43b373',
+        "displayValue": "30.87 %"},{
+        "name": "General ERC",
+        "id": 3,
+        "y": 1846,
+        "color": '#5DADE2',
+        "displayValue": "28.54 %"},{
+        "name": "Multinational ERC",
+        "id": 4,
+        "y": 209,
+        "color": '#5D6D7E',
+        "displayValue": "3.23 %"},{
+        "name": "Indenting ERC",
+        "id": 5,
+        "y": 130,
+        "color": '#EC7063',
+        "displayValue": "2.01 %"},{
+        "name": "Industrial IRC (First Adhoc)",
+        "id": 6,
+        "y": 124,
+        "color": '#EB984E',
+        "displayValue": "1.92 %"},{
+        "name": "Multinational IRC",
+        "id": 7,
+        "y": 94,
+        "color": '#A569BD',
+        "displayValue": "1.45 %"}
+]);
+  
+const [serviceWiseRenewPro, setServiceWiseRenewPro] =   useState([
     { "name": "Commercial IRC","id": 1,"y": 2069,
         "displayValue": "31.98 %"},{
         "name": "Industrial IRC (Other Adhoc)",
@@ -117,34 +154,37 @@ export default function Dashboard() {
         "y": 94,
         "displayValue": "1.45 %"}
 ]);
-  const [serviceWiseRenewPro, setServiceWiseRenewPro] = useState([
-    { "name": "Commercial IRC","id": 1,"y": 2069,
-        "displayValue": "31.98 %"},{
-        "name": "Industrial IRC (Other Adhoc)",
-        "id": 2,
-        "y": 1997,
-        "displayValue": "30.87 %"},{
-        "name": "General ERC",
-        "id": 3,
-        "y": 1846,
-        "displayValue": "28.54 %"},{
-        "name": "Multinational ERC",
-        "id": 4,
-        "y": 209,
-        "displayValue": "3.23 %"},{
-        "name": "Indenting ERC",
-        "id": 5,
-        "y": 130,
-        "displayValue": "2.01 %"},{
-        "name": "Industrial IRC (First Adhoc)",
-        "id": 6,
-        "y": 124,
-        "displayValue": "1.92 %"},{
-        "name": "Multinational IRC",
-        "id": 7,
-        "y": 94,
-        "displayValue": "1.45 %"}
+
+const [serviceWiseRenewRe, setServiceWiseRenewRe] =   useState([
+  { "name": "Commercial IRC","id": 1,"y": 2069+1222,
+      "displayValue": "31.98 %"},{
+      "name": "Industrial IRC (Other Adhoc)",
+      "id": 2,
+      "y": 1997+768,
+      "displayValue": "30.87 %"},{
+      "name": "General ERC",
+      "id": 3,
+      "y": 1846+221,
+      "displayValue": "28.54 %"},{
+      "name": "Multinational ERC",
+      "id": 4,
+      "y": 209+67,
+      "displayValue": "3.23 %"},{
+      "name": "Indenting ERC",
+      "id": 5,
+      "y": 130+34,
+      "displayValue": "2.01 %"},{
+      "name": "Industrial IRC (First Adhoc)",
+      "id": 6,
+      "y": 124+12,
+      "displayValue": "1.92 %"},{
+      "name": "Multinational IRC",
+      "id": 7,
+      "y": 94+12,
+      "displayValue": "1.45 %"}
 ]);
+
+const [serviceWiseRenewSubm, setServiceWiseRenewSubm] =   useState([]);
 
 const services = [
   {name: 'Commercial IRC',color: '#F7DC6F'},
@@ -198,6 +238,20 @@ const services = [
         setServiceWiseRenewPro();
         setServiceWiseRenewPro(doubleDonutChartProcessingData);
 
+        // result.serviceWiseRenewRej.map((d, k) => {
+        //   serviceWiseRenewRej.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, 'displayValue': Number(d.SHARE) + ' %'});
+        // });
+
+        // setServiceWiseRenewRe();
+        // setServiceWiseRenewRe(serviceWiseRenewRej);
+        setServiceWiseRenewSubm();
+        for(var i = 0; i < 7; i++){
+          serviceWiseRenewSub.push({'name': doubleDonutChartProcessingData[i].name, 'id': i, 'y': doubleDonutChartProcessingData[i].y + doubleDonutChartApproveData[i].y});
+        }
+
+        
+        setServiceWiseRenewSubm(serviceWiseRenewSub);
+
           setPieChartData();
           setPieChartData(pieD);
 
@@ -239,7 +293,7 @@ const services = [
   console.log({barChartD_reject});
   console.log({barChartD_approve});
   console.log({barChartD_processing});
-  console.log({barChartD_submission});
+  console.log({serviceWiseRenewSubm});
 
   const hichartPieChartOptions = {
     chart: {
@@ -773,8 +827,8 @@ const services = [
         color: 'rgb(158, 159, 163)',
         pointPlacement: -0.2,
         linkedTo: 'main',
-        data: serviceWiseRenewPro,
-        name: 'Processing'
+        data: serviceWiseRenewSubm,
+        name: 'Submission'
     }, {
         name: 'Approve',
         id: 'main',
@@ -807,7 +861,7 @@ const services = [
         align: 'center',
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        pointFormat: '{series.name}: <b>{point.percentage}%</b>'
     },
     accessibility: {
         point: {
@@ -1063,7 +1117,7 @@ const services = [
         templateColumns={{ sm: "1fr",lg: "1fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
         gap='20px'>
-          {serviceWiseRenewApp && serviceWiseRenewPro && 
+          {serviceWiseRenewApp && serviceWiseRenewPro && serviceWiseRenewSubm && 
             <Card p='0px' maxW={{ sm: "320px", md: "100%"}}>
               {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
                   <Text fontSize='lg' color={textColor} fontWeight='bold'>
