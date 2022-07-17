@@ -422,8 +422,9 @@ const services = [
       bar: {
         dataLabels: {
           enabled: true
-        }
-      }
+        },
+        pointWidth: 15
+      },
     },
     legend: {
       layout: 'vertical',
@@ -433,6 +434,7 @@ const services = [
       y: 80,
       floating: true,
       borderWidth: 1,
+      borderHeight: 5,
       shadow: true
     },
     credits: {
@@ -447,9 +449,6 @@ const services = [
     }, {
       name: 'Approve',
       data: barChartD_approve
-    }, {
-      name: 'Reject',
-      data: barChartD_reject
     }]
   }
 
@@ -472,11 +471,16 @@ const services = [
       }
     },
     plotOptions: {
+      series: {
+          label: {
+              connectorAllowed: false
+          }
+      },
       line: {
         dataLabels: {
           enabled: true
         },
-        enableMouseTracking: false
+        enableMouseTracking: true
       }
     },
     series: [{
@@ -827,7 +831,7 @@ const services = [
         color: 'rgb(158, 159, 163)',
         pointPlacement: -0.2,
         linkedTo: 'main',
-        data: serviceWiseRenewSubm,
+        data: serviceWiseRenewPro,
         name: 'Submission'
     }, {
         name: 'Approve',
@@ -870,18 +874,22 @@ const services = [
     },
     plotOptions: {
         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 35,
             dataLabels: {
                 enabled: true,
-                distance: -50,
+                format: '{point.name} {point.percentage:.1f}%',
                 style: {
                     fontWeight: 'bold',
-                    color: 'white'
+                    color: 'black'
                 }
             },
+            showInLegend: true,
             startAngle: -90,
             endAngle: 90,
             center: ['50%', '75%'],
-            size: '110%'
+            size: '90%'
         }
     },
     series: [{
@@ -1142,7 +1150,7 @@ const services = [
             Service wise Application Status
             </Text>
           </Flex> */}
-          <Box minH='300px'>
+          <Box minH='500px'>
             <HichartBarChart chartOptions={hichartBarChartOptions} />
           </Box>
         </Card>
@@ -1155,7 +1163,7 @@ const services = [
             Service wise Application Status
             </Text>
           </Flex> */}
-          <Box minH='300px'>
+          <Box minH='500px'>
             <HiSemiPieChart chartOptions={hiSemiPieChart} />
             {/* <HichartDonutChart chartOptions={hichartDonutOptions} /> */}
           </Box>
