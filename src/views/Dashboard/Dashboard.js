@@ -363,7 +363,7 @@ const services = [
       }
     },
     title: {
-      text: 'Hours range Wise Renew Application Approve, 2022-2023'
+      text: 'Timely Renew Application Approve, 2022-2023'
     },
     accessibility: {
       point: {
