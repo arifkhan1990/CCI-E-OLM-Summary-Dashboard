@@ -77,6 +77,7 @@ export default function Dashboard() {
   var doubleDonutChartProcessingData = [];
   var serviceWiseRenewSub = [];
   var serviceWiseRenewRej = [];
+  var timeApp = [];
   var rC = ["Jun-29","Jun-30","Jul-01","Jul-02","Jul-03","Jul-04","Jul-05","Jul-06"];
   var rA = [0,0,0,0,474,781,966,0];
   var rP = [0,0,47,257,438,598,1657,0];
@@ -185,6 +186,7 @@ const [serviceWiseRenewRe, setServiceWiseRenewRe] =   useState([
 ]);
 
 const [serviceWiseRenewSubm, setServiceWiseRenewSubm] =   useState([]);
+const [timeWiseRenewApp, setTimeWiseRenewApp] = useState();
 
 const services = [
   {name: 'Commercial IRC',color: '#F7DC6F'},
@@ -202,8 +204,8 @@ const services = [
         redirect: 'follow'
       };
 
-      // fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      // fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -252,6 +254,11 @@ const services = [
         
         setServiceWiseRenewSubm(serviceWiseRenewSub);
 
+        result.renewHoursWiseApprove.map((d, k) => {
+            timeApp.push([d.TimeDuration, Number(d.total_app)])
+        });
+
+        setTimeWiseRenewApp(timeApp);
           setPieChartData();
           setPieChartData(pieD);
 
@@ -268,7 +275,6 @@ const services = [
           
           setBarChartD_submission(result.officesWiseRenewTotalSubmision);
           
-          console.log(result.officeWiseRenewTotalReject.length)
           if(result.officeWiseRenewTotalReject.length != 0) {
             setBarChartD_reject();
             setBarChartD_reject(result.officeWiseRenewTotalReject);
@@ -357,7 +363,7 @@ const services = [
       }
     },
     title: {
-      text: 'Regional Offcie wise All Application Approve Percentage, 2021-2022'
+      text: 'Hours range Wise Renew Application Approve, 2022-2023'
     },
     accessibility: {
       point: {
@@ -382,9 +388,11 @@ const services = [
     },
     series: [{
       name: 'Approve Application',
-      data: pieDonutChartData
+      data: timeWiseRenewApp
     }]
   }
+
+  console.log({timeApp})
   
   var b3 = [0,0,0,0,0,0,0];
 
@@ -1166,6 +1174,19 @@ const services = [
           <Box minH='500px'>
             <HiSemiPieChart chartOptions={hiSemiPieChart} />
             {/* <HichartDonutChart chartOptions={hichartDonutOptions} /> */}
+          </Box>
+        </Card>
+        }
+
+      {timeWiseRenewApp &&
+        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
+          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+            <Text color={textColor} fontSize='lg' fontWeight='bold'>
+            Service wise Application Status
+            </Text>
+          </Flex> */}
+          <Box minH='300px'>
+             <HichartDonutChart chartOptions={hichartDonutOptions} /> 
           </Box>
         </Card>
         }
