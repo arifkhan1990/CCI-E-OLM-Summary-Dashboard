@@ -204,8 +204,8 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      // fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -275,8 +275,8 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      // fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -315,8 +315,8 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      // fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -972,7 +972,8 @@ const services = [
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize='lg' color={textColor} fontWeight='bold' textAlign='center'>
-                    {cardData? cardData.allAppSub : ''}
+                  <NumberFormat value={cardData?  cardData.allAppSub : ''} displayType={'text'} thousandSeparator={true} />
+                    {/* {cardData? cardData.allAppSub : ''} */}
                   </StatNumber>
                 </Flex>
               </Stat>
@@ -1011,7 +1012,8 @@ const services = [
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                  {cardData? cardData.renewSub : ''}
+                  <NumberFormat value={cardData?  cardData.renewSub : ''} displayType={'text'} thousandSeparator={true} />
+                  {/* {cardData? cardData.renewSub : ''} */}
                   </StatNumber>
                 </Flex>
               </Stat>
@@ -1050,7 +1052,8 @@ const services = [
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
-                  {cardData? cardData.renewApprove : ''}
+                  <NumberFormat value={cardData?  cardData.renewApprove : ''} displayType={'text'} thousandSeparator={true} />
+                  {/* {cardData? cardData.renewApprove : ''} */}
                   </StatNumber>
                 </Flex>
               </Stat>
