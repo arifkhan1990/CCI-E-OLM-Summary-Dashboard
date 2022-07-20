@@ -221,10 +221,13 @@ const services = [
             // }
           });
 
-          result.officesWiseAllApp.map((d, k) => {
-              donutPieChartData.push([d.Regional_office,(Number(d.SHARE) + pieD[k][1])/2])
-          });
+          // result.officesWiseAllApp.map((d, k) => {
+          //     donutPieChartData.push([d.Regional_office,(Number(d.SHARE) + pieD[k][1])/2])
+          // });
 
+        result.serviceWiseAllApp.map((d, k) => {
+            donutPieChartData.push([d.Service,Number(d.SHARE)])
+        });
         result.serviceWiseRenewApprove.map((d, k) => {
             doubleDonutChartApproveData.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, color: services[k].color, 'displayValue': Number(d.SHARE) + ' %'})
         });
@@ -254,11 +257,31 @@ const services = [
         
         setServiceWiseRenewSubm(serviceWiseRenewSub);
 
-        result.renewHoursWiseApprove.map((d, k) => {
+        result.rh.map((d, k) => {
             timeApp.push([d.TimeDuration, Number(d.total_app)])
         });
 
         setTimeWiseRenewApp(timeApp);
+        }).catch(error => console.log('error', error));
+    };
+    fetchData();
+  },[]);
+
+
+  useEffect(() => {
+    const fetchData = async =>{
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      // fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result);
+          setCardData(result.data);
+
           setPieChartData();
           setPieChartData(pieD);
 
@@ -280,6 +303,25 @@ const services = [
             setBarChartD_reject(result.officeWiseRenewTotalReject);
           }
 
+        }).catch(error => console.log('error', error));
+    };
+    fetchData();
+  },[]);
+
+  useEffect(() => {
+    const fetchData = async =>{
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      // fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result);
+          setCardData(result.data);
+
           setRc();
           setRa();
           setRp();
@@ -294,6 +336,7 @@ const services = [
     };
     fetchData();
   },[]);
+
   console.log({serviceWiseRenewApp});
   console.log({serviceWiseRenewPro});
   console.log({barChartD_reject});
@@ -869,7 +912,7 @@ const services = [
         plotShadow: false
     },
     title: {
-        text: 'Regional Offcie wise All Application Approve status 2022-2023',
+        text: 'Service wise All Application Approve status 2022-2023',
         align: 'center',
     },
     tooltip: {
@@ -896,8 +939,8 @@ const services = [
             showInLegend: true,
             startAngle: -90,
             endAngle: 90,
-            center: ['50%', '75%'],
-            size: '90%'
+            center: ['40%', '75%'],
+            size: '80%'
         }
     },
     series: [{
@@ -911,14 +954,14 @@ const services = [
   return (
     <Flex flexDirection='column' pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing='24px' mb='20px'>
-        <Card minH='125px'>
+        <Card>
           <Flex direction='column'>
             <Flex
               flexDirection='row'
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
@@ -928,7 +971,7 @@ const services = [
                   Total Approve Application
                 </StatLabel>
                 <Flex>
-                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold'>
+                  <StatNumber fontSize='lg' color={textColor} fontWeight='bold' textAlign='center'>
                     {cardData? cardData.allAppSub : ''}
                   </StatNumber>
                 </Flex>
@@ -942,22 +985,22 @@ const services = [
                 <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
+            {/* <Text color='gray.400' fontSize='sm'>
               <Text as='span' color='green.400' fontWeight='bold'>
                 +3.48%{" "}
               </Text>
               Since last year
-            </Text>
+            </Text> */}
           </Flex>
         </Card>
-        <Card minH='125px'>
+        <Card>
           <Flex direction='column'>
             <Flex
               flexDirection='row'
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
@@ -981,22 +1024,22 @@ const services = [
                 <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
+            {/* <Text color='gray.400' fontSize='sm'>
               <Text as='span' color='green.500' fontWeight='bold'>
                 +2.82%{" "}
               </Text>
               Since last year
-            </Text>
+            </Text> */}
           </Flex>
         </Card>
-        <Card minH='125px'>
+        <Card>
           <Flex direction='column'>
             <Flex
               flexDirection='row'
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
@@ -1020,22 +1063,22 @@ const services = [
                 <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
+            {/* <Text color='gray.400' fontSize='sm'>
               <Text as='span' color='green.400' fontWeight='bold'>
                 +5.2%{" "}
               </Text>
               Since last year
-            </Text>
+            </Text> */}
           </Flex>
         </Card>
-        <Card minH='125px'>
+        <Card>
           <Flex direction='column'>
             <Flex
               flexDirection='row'
               align='center'
               justify='center'
               w='100%'
-              mb='25px'>
+              >
               <Stat me='auto'>
                 <StatLabel
                   fontSize='xs'
@@ -1060,12 +1103,12 @@ const services = [
                 <CreditIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
-            <Text color='gray.400' fontSize='sm'>
+            {/* <Text color='gray.400' fontSize='sm'>
               <Text as='span' color='green.400' fontWeight='bold'>
                 +8.12%{" "}
               </Text>
               Since last year
-            </Text>
+            </Text> */}
           </Flex>
         </Card>
       </SimpleGrid>
