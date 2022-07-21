@@ -218,8 +218,8 @@ const services = [
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -291,8 +291,8 @@ const services = [
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -327,8 +327,8 @@ const services = [
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -980,7 +980,7 @@ const services = [
     },
     accessibility: {
         point: {
-            valueDescriptionFormat: '{index}. Application {xDescription}, {value}%.'
+            valueDescriptionFormat: '{index}. Application {xDescription}, {value}'
         }
     },
     xAxis: [{
@@ -1010,12 +1010,11 @@ const services = [
         },
         labels: {
             formatter: function () {
-                return Math.abs(this.value) + '%';
+                return Math.abs(this.value);
             }
         },
         accessibility: {
             description: 'Renew Application',
-            rangeDescription: 'Range: 1 to 100%'
         }
     },
 
@@ -1028,7 +1027,7 @@ const services = [
     tooltip: {
         formatter: function () {
             return '<b>' + this.point.category  + ' Office Renew application  </b><br/>' +
-                this.series.name + ': ' + Highcharts.numberFormat(Math.abs(this.point.y), 1) + '%';
+                this.series.name + ': ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
         }
     },
 
