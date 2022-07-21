@@ -1,4 +1,4 @@
-import React from "react";
+
 // Chakra imports
 import {
   Box,
@@ -14,11 +14,52 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+
+import React, {useState, useEffect} from "react";
+import { useHistory } from "react-router-dom";
 // Assets
 import signInImage from "assets/img/signInImage.png";
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 
 function SignIn() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+
+  useEffect(() =>{
+    if (localStorage.getItem('login-info')){
+      history.push("/admin/dashboard");
+    }
+  }, []);
+
+  function login(){
+    console.warn(email, password);
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var login_data = JSON.stringify({'email': email, 'password': password});
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: login_data
+    };
+
+    fetch("http://103.159.37.7:4100/api/users/login", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log({result})
+        if(result.message == 'Auth Success') {
+          localStorage.setItem('login-info',JSON.stringify(result));
+          history.push("/");
+        }else {
+          alert('Email or Password incorrect !.');
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
   const bgForm = useColorModeValue("white", "navy.800");
@@ -29,8 +70,8 @@ function SignIn() {
   return (
     <Flex position='relative' mb='40px'>
       <Flex
-        minH={{ md: "1000px" }}
-        h={{ sm: "initial", md: "75vh", lg: "85vh" }}
+        // minH={{ md: "1000px" }}
+        // h={{ sm: "initial", md: "75vh", lg: "85vh" }}
         w='100%'
         maxW='1044px'
         mx='auto'
@@ -39,7 +80,7 @@ function SignIn() {
         pt={{ md: "0px" }}>
         <Flex
           w='100%'
-          h='100%'
+          h='75vh'
           alignItems='center'
           justifyContent='center'
           mb='60px'
@@ -58,98 +99,21 @@ function SignIn() {
               "0px 5px 14px rgba(0, 0, 0, 0.05)",
               "unset"
             )}>
-            <Text
-              fontSize='xl'
-              color={textColor}
-              fontWeight='bold'
-              textAlign='center'
-              mb='22px'>
-              Register With
-            </Text>
-            <HStack spacing='15px' justify='center' mb='22px'>
-              <Flex
-                justify='center'
-                align='center'
-                w='75px'
-                h='75px'
-                borderRadius='8px'
-                border={useColorModeValue("1px solid", "0px")}
-                borderColor='gray.200'
-                cursor='pointer'
-                transition='all .25s ease'
-                bg={bgIcons}
-                _hover={{ bg: bgIconsHover }}>
-                <Link href='#'>
-                  <Icon as={FaFacebook} color={colorIcons} w='30px' h='30px' />
-                </Link>
-              </Flex>
-              <Flex
-                justify='center'
-                align='center'
-                w='75px'
-                h='75px'
-                borderRadius='8px'
-                border={useColorModeValue("1px solid", "0px")}
-                borderColor='gray.200'
-                cursor='pointer'
-                transition='all .25s ease'
-                bg={bgIcons}
-                _hover={{ bg: bgIconsHover }}>
-                <Link href='#'>
-                  <Icon
-                    as={FaApple}
-                    color={colorIcons}
-                    w='30px'
-                    h='30px'
-                    _hover={{ filter: "brightness(120%)" }}
-                  />
-                </Link>
-              </Flex>
-              <Flex
-                justify='center'
-                align='center'
-                w='75px'
-                h='75px'
-                borderRadius='8px'
-                border={useColorModeValue("1px solid", "0px")}
-                borderColor='gray.200'
-                cursor='pointer'
-                transition='all .25s ease'
-                bg={bgIcons}
-                _hover={{ bg: bgIconsHover }}>
-                <Link href='#'>
-                  <Icon
-                    as={FaGoogle}
-                    color={colorIcons}
-                    w='30px'
-                    h='30px'
-                    _hover={{ filter: "brightness(120%)" }}
-                  />
-                </Link>
-              </Flex>
-            </HStack>
-            <Text
-              fontSize='lg'
-              color='gray.400'
-              fontWeight='bold'
-              textAlign='center'
-              mb='22px'>
-              or
-            </Text>
             <FormControl>
-              <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
-                Name
+              <FormLabel ms='4px' fontSize='md' fontWeight='normal'>
+                Email
               </FormLabel>
               <Input
                 variant='auth'
                 fontSize='sm'
                 ms='4px'
                 type='text'
-                placeholder='Your full name'
+                placeholder='Your Email Id'
                 mb='24px'
                 size='lg'
+                onChange={(e)=>setEmail(e.target.value)}
               />
-              <FormLabel ms='4px' fontSize='sm' fontWeight='normal'>
+              <FormLabel ms='4px' fontSize='md' fontWeight='normal'>
                 Password
               </FormLabel>
               <Input
@@ -160,41 +124,19 @@ function SignIn() {
                 placeholder='Your password'
                 mb='24px'
                 size='lg'
+                onChange={(e)=>setPassword(e.target.value)}
               />
-              <FormControl display='flex' alignItems='center' mb='24px'>
-                <Switch id='remember-login' colorScheme='blue' me='10px' />
-                <FormLabel htmlFor='remember-login' mb='0' fontWeight='normal'>
-                  Remember me
-                </FormLabel>
-              </FormControl>
               <Button
+                onClick={login}
                 fontSize='10px'
                 variant='dark'
                 fontWeight='bold'
                 w='100%'
                 h='45'
                 mb='24px'>
-                SIGN UP
+                SIGN IN
               </Button>
             </FormControl>
-            <Flex
-              flexDirection='column'
-              justifyContent='center'
-              alignItems='center'
-              maxW='100%'
-              mt='0px'>
-              <Text color={textColor} fontWeight='medium'>
-                Already have an account?
-                <Link
-                  color={titleColor}
-                  as='span'
-                  ms='5px'
-                  href='#'
-                  fontWeight='bold'>
-                  Sign In
-                </Link>
-              </Text>
-            </Flex>
           </Flex>
         </Flex>
         <Box

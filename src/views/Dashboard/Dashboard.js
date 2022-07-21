@@ -44,6 +44,7 @@ import {
   CreditIcon,
 } from "components/Icons/Icons.js";
 import React, {useState, useEffect} from "react";
+import { useHistory } from "react-router-dom";
 // Variables
 import {
   barChartData2,
@@ -59,6 +60,14 @@ import { commenter } from "stylis";
 import HiNegativeBarChart from "components/Charts/HiNegativeBarChart";
 
 export default function Dashboard() {
+  const history = useHistory();
+  useEffect(() =>{
+    if (localStorage.getItem('login-info')){
+      history.push("/admin/dashboard");
+    }else{
+      history.push('/auth/signin');
+    }
+  }, []);
   // Chakra Color Mode
   const iconBlue = useColorModeValue("blue.500", "blue.500");
   const iconBoxInside = useColorModeValue("white", "white");
@@ -209,8 +218,8 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -282,8 +291,8 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -318,8 +327,8 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);

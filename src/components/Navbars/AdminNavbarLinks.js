@@ -21,10 +21,15 @@ import { ItemContent } from "components/Menu/ItemContent";
 import { SearchBar } from "components/Navbars/SearchBar/SearchBar";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import routes from "routes.js";
 
 export default function HeaderLinks(props) {
+  const history = useHistory();
+  function logout() {
+    localStorage.removeItem('login-info');
+    history.push('/auth/signin');
+  }
   const {
     variant,
     children,
@@ -60,6 +65,7 @@ export default function HeaderLinks(props) {
           me={{ sm: "2px", md: "16px" }}
           color={navbarIcon}
           variant='no-effects'
+          onClick={logout}
           rightIcon={
             document.documentElement.dir ? (
               ""
@@ -74,35 +80,9 @@ export default function HeaderLinks(props) {
               ""
             )
           }>
-          <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
+          <Text display={{ sm: "none", md: "flex" }}>Sign Out</Text>
         </Button>
       </NavLink>
-      <SidebarResponsive
-        hamburgerColor={"white"}
-        logo={
-          <Stack direction='row' spacing='12px' align='center' justify='center'>
-            {colorMode === "dark" ? (
-              <ArgonLogoLight w='74px' h='27px' />
-            ) : (
-              <ArgonLogoDark w='74px' h='27px' />
-            )}
-            <Box
-              w='1px'
-              h='20px'
-              bg={colorMode === "dark" ? "white" : "gray.700"}
-            />
-            {colorMode === "dark" ? (
-              <ChakraLogoLight w='82px' h='21px' />
-            ) : (
-              <ChakraLogoDark w='82px' h='21px' />
-            )}
-          </Stack>
-        }
-        colorMode={colorMode}
-        secondary={props.secondary}
-        routes={routes}
-        {...rest}
-      />
     </Flex>
   );
 }
