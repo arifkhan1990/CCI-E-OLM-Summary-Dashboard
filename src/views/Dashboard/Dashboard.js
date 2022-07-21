@@ -218,11 +218,11 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
-          console.log(result);
+          //console.log(result);
           setCardData(result.data);
           pieD = [];
           result.officesWiseRenewApp.map((d, k) => {
@@ -291,11 +291,11 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
-          console.log(result);
+          //console.log(result);
           setCardData(result.data);
 
           setBarChartD_approve();
@@ -327,11 +327,11 @@ const services = [
         redirect: 'follow'
       };
 
-      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+     //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
-          console.log(result);
+          //console.log(result);
           setCardData(result.data);
 
           setRc();
@@ -351,12 +351,12 @@ const services = [
     return () => clearInterval(interval);
   },[]);
 
-  console.log({serviceWiseRenewApp});
-  console.log({serviceWiseRenewPro});
-  console.log({barChartD_reject});
-  console.log({barChartD_approve});
-  console.log({barChartD_processing});
-  console.log({serviceWiseRenewSubm});
+  // console.log({serviceWiseRenewApp});
+  // console.log({serviceWiseRenewPro});
+  // console.log({barChartD_reject});
+  // console.log({barChartD_approve});
+  // console.log({barChartD_processing});
+  // console.log({serviceWiseRenewSubm});
 
   const hichartPieChartOptions = {
     chart: {
@@ -969,8 +969,8 @@ const services = [
 
   var office = ['Sylhet','Rajshahi','Others','Khulna','Dhaka','CTG'];
 
-  console.log({nChartC});
-  console.log({nChartP});
+  // console.log({nChartC});
+  // console.log({nChartP});
   const hiNegativeBarChart = {
     chart: {
       type: 'bar'
