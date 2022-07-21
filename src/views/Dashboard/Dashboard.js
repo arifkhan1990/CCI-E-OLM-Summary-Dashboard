@@ -645,14 +645,14 @@ const services = [
     labelss: {
       items: [
         {
-          html: "",
+          html: "Submission",
           style: {
             left: '80px',
             top: '20px'
           }
         },
         {
-          html: "",
+          html: "Approve",
           style: {
             left: '50%',
             top: '180px'
@@ -721,6 +721,7 @@ const services = [
     series: [
       {
         type: "pie",
+        name: "Processing",
         innerSize: "70%",
         showInLegend: false,
         dataLabels: {
@@ -736,17 +737,18 @@ const services = [
         data: serviceWiseRenewPro,
         pieTotal: "828",
         colors: [
-          "#F9E79F",
-          "#8ad3a9",
-          "#AED6F1",
-          "#AEB6BF",
-          "#F5B7B1",
-          "#FAE5D3",
-          "#D2B4DE"
+          "#f8e187",
+          "#6ac893",
+          "#67b2e4",
+          "#7b8c9d",
+          "#ee8377",
+          "#f0ae75",
+          "#b583c9"
         ]
       },
       {
         type: "pie",
+        name: "Approve",
         size: "60%",
         dataLabels: {
           enabled: true,
@@ -777,12 +779,12 @@ const services = [
         data: serviceWiseRenewApp,
         pieTotal: "828",
         colors: [
-          "#F7DC6F",
-          "#43b373",
-          "#5DADE2",
-          "#5D6D7E",
-          "#EC7063",
-          "#EB984E",
+          "#f1c40e",
+          "#379560",
+          "#2691d9",
+          "#4c5967",
+          "#e64533",
+          "#e88630",
           "#A569BD"
         ]
       }
@@ -940,7 +942,7 @@ const services = [
             startAngle: -90,
             endAngle: 90,
             center: ['40%', '75%'],
-            size: '80%'
+            size: '100%'
         }
     },
     series: [{
@@ -1148,19 +1150,21 @@ const services = [
         templateColumns={{ sm: "1fr", lg: "2fr 2fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
         gap='20px'>
-        {pieChartData && 
-        <Card p='0px' maxW={{ sm: "320px", md: "100%"}} minH='220px'>
+
+
+      {pieDonutChartData &&
+        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
-              <Text fontSize='lg' color={textColor} fontWeight='bold'>
-                Office wise Renew Application Approve Percentage
-              </Text>
-            </Flex> */}
-            <Box minH='250px'>
-              <HichartPieChart chartOptions={hichartPieChartOptions} />
-            </Box>
+            <Text color={textColor} fontSize='lg' fontWeight='bold'>
+            Service wise Application Status
+            </Text>
+          </Flex> */}
+          <Box minH='220px'>
+            <HiSemiPieChart chartOptions={hiSemiPieChart} />
+            {/* <HichartDonutChart chartOptions={hichartDonutOptions} /> */}
+          </Box>
         </Card>
         }
-
 
         {serviceWiseRenewApp && serviceWiseRenewPro &&
         <Card p='0px' maxW={{ sm: "320px", md: "100%"}} minH='220px'>
@@ -1204,23 +1208,22 @@ const services = [
             Service wise Application Status
             </Text>
           </Flex> */}
-          <Box minH='500px'>
+          <Box minH='400px'>
             <HichartBarChart chartOptions={hichartBarChartOptions} />
           </Box>
         </Card>
         }
 
-      {pieDonutChartData &&
-        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
+         {pieChartData && 
+        <Card p='0px' maxW={{ sm: "320px", md: "100%"}} minH='220px'>
           {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
-            <Text color={textColor} fontSize='lg' fontWeight='bold'>
-            Service wise Application Status
-            </Text>
-          </Flex> */}
-          <Box minH='500px'>
-            <HiSemiPieChart chartOptions={hiSemiPieChart} />
-            {/* <HichartDonutChart chartOptions={hichartDonutOptions} /> */}
-          </Box>
+              <Text fontSize='lg' color={textColor} fontWeight='bold'>
+                Office wise Renew Application Approve Percentage
+              </Text>
+            </Flex> */}
+            <Box minH='500px'>
+              <HichartPieChart chartOptions={hichartPieChartOptions} />
+            </Box>
         </Card>
         }
 

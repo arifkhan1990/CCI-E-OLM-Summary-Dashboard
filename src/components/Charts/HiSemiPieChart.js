@@ -26,7 +26,7 @@ class HiSemiPieChart extends Component {
   render() {
     return (
         <HighchartsReact
-        containerProps={{ style: { borderRadius: "25px", height: '580px' } }}
+        containerProps={{ style: { height: "340px", borderRadius: "25px" } }}
         highcharts={Highcharts}
         options={this.state.chartOptions}
         type="pie"

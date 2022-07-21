@@ -26,7 +26,7 @@ class HichartPieChart extends Component {
   render() {
     return (
         <HighchartsReact
-        containerProps={{ style: { height: "340px", borderRadius: "25px" } }}
+        containerProps={{ style: { borderRadius: "25px", height: '500px' } }}
         highcharts={Highcharts}
         options={this.state.chartOptions}
         type="pie"
