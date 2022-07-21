@@ -56,6 +56,7 @@ import { RiSafariFill } from "react-icons/ri";
 import NumberFormat from "react-number-format";
 import exporting from 'highcharts/modules/exporting'
 import { commenter } from "stylis";
+import HiNegativeBarChart from "components/Charts/HiNegativeBarChart";
 
 export default function Dashboard() {
   // Chakra Color Mode
@@ -77,6 +78,8 @@ export default function Dashboard() {
   var doubleDonutChartProcessingData = [];
   var serviceWiseRenewSub = [];
   var serviceWiseRenewRej = [];
+  var nC = [];
+  var nP = [];
   var timeApp = [];
   var rC = ["Jun-29","Jun-30","Jul-01","Jul-02","Jul-03","Jul-04","Jul-05","Jul-06"];
   var rA = [0,0,0,0,474,781,966,0];
@@ -87,11 +90,13 @@ export default function Dashboard() {
   const [ra, setRa] = useState(rA);
   const [rp, setRp] = useState(rP);
   const [rs, setRs] = useState(rS);
-  const [status, setStatus] = useState();
+  const [nChartC, setNChartC] = useState([95,20,7,7,4,1]);
+  const [nChartP, setNChartP] = useState([95,20,7,7,4,1]);
   const [barChartD_approve, setBarChartD_approve] = useState([1051,95,20,7,7,4,1]);
   const [barChartD_processing, setBarChartD_processing] = useState([1659,165,41,10,5,5,3]);
   const [barChartD_reject, setBarChartD_reject] = useState([0,0,0,0,0,0,0]);
   const [barChartD_submission, setBarChartD_submission] = useState([2710,260,61,17,12,9,4]);
+
   const [serviceWiseRenewApp , setServiceWiseRenewApp] = useState([
     { "name": "Commercial IRC","id": 1,"y": 2069,"color": '#F7DC6F',
         "displayValue": "31.98 %"},{
@@ -198,43 +203,34 @@ const services = [
   {name: 'Industrial IRC (First Adhoc)',color: '#A569BD'}];
 
   useEffect(() => {
-    const fetchData = async =>{
+    const fetchData3 = async =>{
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
           setCardData(result.data);
-
-          
+          pieD = [];
           result.officesWiseRenewApp.map((d, k) => {
-            // if(k == 0) {
-            //   var firstD = {name: d.Regional_office, y: Number(d.SHARE),sliced: true,selected: true};
-            //   pieD.push(firstD);
-            // }else{
-              pieD.push([d.Regional_office,Number(d.SHARE)])
-            // }
+              pieD.push([d.Regional_office,d.total_app])
           });
-
-          // result.officesWiseAllApp.map((d, k) => {
-          //     donutPieChartData.push([d.Regional_office,(Number(d.SHARE) + pieD[k][1])/2])
-          // });
-
+          donutPieChartData = [];
         result.serviceWiseAllApp.map((d, k) => {
-            donutPieChartData.push([d.Service,Number(d.SHARE)])
+            donutPieChartData.push([d.Service, d.total_app])
         });
+        doubleDonutChartApproveData = [];
         result.serviceWiseRenewApprove.map((d, k) => {
             doubleDonutChartApproveData.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, color: services[k].color, 'displayValue': Number(d.SHARE) + ' %'})
         });
 
         setServiceWiseRenewApp();
         setServiceWiseRenewApp(doubleDonutChartApproveData);
-
+        doubleDonutChartProcessingData = [];
         result.serviceWiseRenewProcessing.map((d, k) => {
           doubleDonutChartProcessingData.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, 'displayValue': Number(d.SHARE) + ' %'});
           // console.log({doubleDonutChartProcessingData});
@@ -243,50 +239,55 @@ const services = [
         setServiceWiseRenewPro();
         setServiceWiseRenewPro(doubleDonutChartProcessingData);
 
-        // result.serviceWiseRenewRej.map((d, k) => {
-        //   serviceWiseRenewRej.push({'name': d.sub_service_name_en, 'id': k+1, 'y': d.app, 'displayValue': Number(d.SHARE) + ' %'});
-        // });
-
-        // setServiceWiseRenewRe();
-        // setServiceWiseRenewRe(serviceWiseRenewRej);
         setServiceWiseRenewSubm();
+        serviceWiseRenewSub = [];
         for(var i = 0; i < 7; i++){
           serviceWiseRenewSub.push({'name': doubleDonutChartProcessingData[i].name, 'id': i, 'y': doubleDonutChartProcessingData[i].y + doubleDonutChartApproveData[i].y});
         }
 
         
         setServiceWiseRenewSubm(serviceWiseRenewSub);
-
+         timeApp = [];
         result.rh.map((d, k) => {
             timeApp.push([d.TimeDuration, Number(d.total_app)])
         });
 
         setTimeWiseRenewApp(timeApp);
+
+        setPieChartData();
+        setPieChartData(pieD);
+
+        setPieDonutChartData();
+        setPieDonutChartData(donutPieChartData);
+          
+        setNChartC();
+        setNChartC(result.officeWiseRenewTotalApproveCurr);
+        
+        setNChartP();
+        setNChartP(result.officeWiseRenewTotalApprovePre);
+
         }).catch(error => console.log('error', error));
     };
-    fetchData();
+    fetchData3();
+    const interval = setInterval(fetchData3, 100000);
+    return () => clearInterval(interval);
   },[]);
 
 
   useEffect(() => {
-    const fetchData = async =>{
+    const fetchData1 = async =>{
+
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
           setCardData(result.data);
-
-          setPieChartData();
-          setPieChartData(pieD);
-
-          setPieDonutChartData();
-          setPieDonutChartData(donutPieChartData);
 
           setBarChartD_approve();
           setBarChartD_processing();
@@ -305,18 +306,20 @@ const services = [
 
         }).catch(error => console.log('error', error));
     };
-    fetchData();
+    fetchData1();
+    const interval = setInterval(fetchData1, 100000);
+    return () => clearInterval(interval);
   },[]);
 
   useEffect(() => {
-    const fetchData = async =>{
+    const fetchData2 = async =>{
       var requestOptions = {
         method: 'GET',
         redirect: 'follow'
       };
 
-      //fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
-      fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
+      fetch("http://103.205.180.187:80/ccielive/public/index.php/api/cardData", requestOptions)
+      //fetch("https://api.ccie.gov.bd/api/cardData", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
@@ -334,7 +337,9 @@ const services = [
 
         }).catch(error => console.log('error', error));
     };
-    fetchData();
+    fetchData2();
+    const interval = setInterval(fetchData2, 100000);
+    return () => clearInterval(interval);
   },[]);
 
   console.log({serviceWiseRenewApp});
@@ -391,7 +396,7 @@ const services = [
     },
     series: [{
       type: 'pie',
-      name: 'Renew Application Approve Percentage',
+      name: 'Renew Application',
       data: pieChartData
     }]
   }
@@ -914,15 +919,15 @@ const services = [
         plotShadow: false
     },
     title: {
-        text: 'Service wise All Application Approve status 2022-2023',
+        text: 'Service wise All Application',
         align: 'center',
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage}%</b>'
+        pointFormat: '{series.name}: <b>{point.z}</b>'
     },
     accessibility: {
         point: {
-            valueSuffix: '%'
+            valueSuffix: ''
         }
     },
     plotOptions: {
@@ -950,6 +955,80 @@ const services = [
         name: 'Approve',
         innerSize: '50%',
         data: pieDonutChartData
+    }]
+  }
+
+  var office = ['Sylhet','Rajshahi','Others','Khulna','Dhaka','CTG'];
+
+  console.log({nChartC});
+  console.log({nChartP});
+  const hiNegativeBarChart = {
+    chart: {
+      type: 'bar'
+    },
+    title: {
+        text: 'Renew Approve Application Compare, 2022-2023 / 2021-2022'
+    },
+    accessibility: {
+        point: {
+            valueDescriptionFormat: '{index}. Application {xDescription}, {value}%.'
+        }
+    },
+    xAxis: [{
+        categories: office,
+        reversed: false,
+        labels: {
+            step: 1
+        },
+        accessibility: {
+            description: 'Renew (Current Year)'
+        }
+    }, { // mirror axis on right side
+        opposite: true,
+        reversed: false,
+        categories: office,
+        linkedTo: 0,
+        labels: {
+            step: 1
+        },
+        accessibility: {
+            description: 'Renew (Last Year)'
+        }
+    }],
+    yAxis: {
+        title: {
+            text: null
+        },
+        labels: {
+            formatter: function () {
+                return Math.abs(this.value) + '%';
+            }
+        },
+        accessibility: {
+            description: 'Renew Application',
+            rangeDescription: 'Range: 1 to 100%'
+        }
+    },
+
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+
+    tooltip: {
+        formatter: function () {
+            return '<b>' + this.point.category  + ' Office Renew application  </b><br/>' +
+                this.series.name + ': ' + Highcharts.numberFormat(Math.abs(this.point.y), 1) + '%';
+        }
+    },
+
+    series: [{
+        name: '2022-2023',
+        data: nChartC
+    }, {
+        name: '2021-2022',
+        data: nChartP
     }]
   }
 
@@ -1236,6 +1315,18 @@ const services = [
           </Flex> */}
           <Box minH='300px'>
              <HichartDonutChart chartOptions={hichartDonutOptions} /> 
+          </Box>
+        </Card>
+        }
+        {nChartC && nChartP &&
+        <Card p='0px' maxW={{ sm: "320px", md: "100%" }}>
+          {/* <Flex direction='column' mb='40px' p='28px 0px 0px 22px'>
+            <Text color={textColor} fontSize='lg' fontWeight='bold'>
+            Service wise Application Status
+            </Text>
+          </Flex> */}
+          <Box minH='300px'>
+             <HiNegativeBarChart chartOptions={hiNegativeBarChart} /> 
           </Box>
         </Card>
         }
