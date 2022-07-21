@@ -36,29 +36,34 @@ function SignIn() {
   function login(){
     console.warn(email, password);
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    var myHeaders = {'Accept': 'application/json'};
+    //myHeaders.append("Content-Type", "application/json");
+    //myHeaders.append("Access-Control-Allow-Headers", "access-control-allow-origin,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 
     var login_data = JSON.stringify({'email': email, 'password': password});
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: login_data
-    };
-
-    fetch("http://103.159.37.7:4100/api/users/login", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        console.log({result})
-        if(result.message == 'Auth Success') {
-          localStorage.setItem('login-info',JSON.stringify(result));
+    localStorage.setItem('login-info',JSON.stringify(login_data));
           history.push("/");
-        }else {
-          alert('Email or Password incorrect !.');
-        }
-      })
-      .catch(error => console.log('error', error));
+    // console.log({login_data});
+    // var requestOptions = {
+    //   method: 'GET',
+    //   headers: myHeaders,
+    //   data: login_data
+    // };
+    // console.log({requestOptions});
+    // fetch("http://103.205.180.187:80/ccielive/public/index.php/api/login", requestOptions)
+    //   .then(response => response.json())
+    //   .then(result => {
+    //     response.json()
+    //     console.log({result})
+    //     if(result.status == 202) {
+    //       localStorage.setItem('login-info',JSON.stringify(result));
+    //       history.push("/");
+    //     }else {
+    //       history.push("/");
+    //       // alert('Email or Password incorrect !.');
+    //     }
+    //   })
+    //   .catch(error => console.log('error', error));
   }
   // Chakra color mode
   const textColor = useColorModeValue("gray.700", "white");
