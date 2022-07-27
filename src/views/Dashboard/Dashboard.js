@@ -496,7 +496,7 @@ const services = [
       align: 'right',
       verticalAlign: 'top',
       x: -40,
-      y: 80,
+      y: 350,
       floating: true,
       borderWidth: 1,
       borderHeight: 5,
